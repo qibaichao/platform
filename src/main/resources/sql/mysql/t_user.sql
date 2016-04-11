@@ -15,7 +15,6 @@ CREATE TABLE t_user_test (
 )
 
 
-
 -- ----------------------------
 -- Records of t_user_test
 -- ----------------------------
