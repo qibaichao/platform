@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +25,15 @@ import com.cyou.vo.UserVo;
 
 /**
  * 类UserServiceImpl.java的实现描述：TODO 类实现描述
- * 
+ *
  * @author qibaichao 2014年7月21日 下午5:44:40
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
-    @Resource
+    @Autowired
     private UserLogic userLogic;
 
     @Override

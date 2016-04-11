@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,25 +16,10 @@ import com.cyou.common.core.ResultVoBean;
 import com.cyou.service.UserService;
 import com.cyou.vo.UserVo;
 
-public class UserServiceTest {
+public class UserServiceTest extends BaseTest {
 
-    private ApplicationContext ctx = null;
-
-    @Resource
-    private UserService userService = null;
-
-    /**
-     * 调拨接口服务实现测试
-     * 
-     * @author chenxinquan
-     */
-    @Before
-    public void init() {
-        ctx = new ClassPathXmlApplicationContext(new String[] {
-                "spring.xml", "spring-mybatis.xml"
-        });
-        userService = ctx.getBean("userServiceImpl", UserService.class);
-    }
+    @Autowired
+    private UserService userService ;
 
     /**
      * 查询数据库测试
@@ -102,15 +88,16 @@ public class UserServiceTest {
             e.printStackTrace();
         }
     }
+
     /**
      * service事物控制测试
      */
-    // @Test
-    // public void transactionTest() {
-    // User u = new User();
-    // u.setUserName("ceshi" + new Random().nextInt(1000));
-    // int count = userService.addUser(u);
-    // System.out.println("*********** " + count);
-    // }
+    @Test
+    public void transactionTest() {
+        UserVo u = new UserVo();
+        u.setUserName("ceshi" + new Random().nextInt(1000));
+        userService.addUser(u);
+        System.out.println("*********** success");
+    }
 
 }

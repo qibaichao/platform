@@ -13,54 +13,98 @@
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:jdbc.properties" />
 
-	<!--c3p0连接池 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass">
-			<value>${pay_jdbc_driverClassName}</value>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+		  destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc_driverClassName}</value>
 		</property>
-		<property name="jdbcUrl">
-			<value>${pay_jdbc_url}</value>
+		<property name="url">
+			<value>${jdbc_url}</value>
 		</property>
-		<property name="user">
-			<value>${pay_jdbc_username}</value>
+		<property name="username">
+			<value>${jdbc_username}</value>
 		</property>
 		<property name="password">
-			<value>${pay_jdbc_password}</value>
+			<value>${jdbc_password}</value>
 		</property>
-		<property name="minPoolSize">
-			<value>${pay_minPoolSize}</value>
+		<!-- 连接池最大使用连接数 -->
+		<property name="maxActive">
+			<value>20</value>
 		</property>
-		<!--连接池中保留的最大连接数。Default: 15 -->
-		<property name="maxPoolSize">
-			<value>${pay_maxPoolSize}</value>
-		</property>
-		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
-		<property name="initialPoolSize">
-			<value>${pay_initialPoolSize}</value>
-		</property>
-		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
-		<property name="maxIdleTime">
-			<value>60</value>
-		</property>
-		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
-		<property name="acquireIncrement">
+		<!-- 初始化连接大小 -->
+		<property name="initialSize">
 			<value>1</value>
 		</property>
-		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
-		<property name="idleConnectionTestPeriod">
-			<value>60</value>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait">
+			<value>60000</value>
 		</property>
-		<!--定义所有连接测试都执行的测试语句。在使用连接测试的情况下这个一显著提高测试速度。注意： 测试的表必须在初始数据源的时候就存在。 -->
-		<property name="preferredTestQuery" value="SELECT 1 FROM DUAL"></property>
-		<!--如果设为true那么在取得连接的同时将校验连接的有效性。Default: false -->
-		<property name="testConnectionOnCheckin" value="true"></property>
-		<!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的 时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable 
-			等方法来提升连接测试的性能。Default: false -->
-		<property name="testConnectionOnCheckout" value="false"></property>
-		<property name="acquireRetryAttempts">
-			<value>10</value>
+		<!-- 连接池最大空闲, Deprecated -->
+		<!--<property name="maxIdle">
+            <value>20</value>
+        </property>-->
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle">
+			<value>3</value>
 		</property>
+		<property name="validationQuery">
+			<value>SELECT 'x'</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="testOnReturn">
+			<value>false</value>
+		</property>
+		<!-- 自动清除无用连接 -->
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<!-- 清除无用连接的等待时间 -->
+		<property name="removeAbandonedTimeout">
+			<value>1800</value>
+		</property>
+		<!-- 连接属性 -->
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8</value>
+		</property>
+		<!-- 5分钟统计一次-->
+		<property name="timeBetweenLogStatsMillis">
+			<value>300000</value>
+		</property>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+				<ref bean="log-filter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<!-- 慢SQL记录 -->
+		<property name="slowSqlMillis" value="5000"/>
+		<!-- Log输出慢记录 -->
+		<property name="logSlowSql" value="true"/>
+		<!-- 合并SQL -->
+		<property name="mergeSql" value="true"/>
+	</bean>
+
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="statementExecutableSqlLogEnable" value="true"/>
+		<property name="resultSetLogEnabled" value="true"/>
+	</bean>
+
+	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+		<property name="dbType" value="mysql" />
+		<property name="config" ref="wall-filter-config" />
+	</bean>
+
+	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+		<property name="dir" value="classpath:druid/wall/mysql" />
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"

@@ -6,12 +6,14 @@ import org.apache.ibatis.annotations.Param;
 
 import com.cyou.common.core.Pager;
 import com.cyou.po.UserPo;
+import org.springframework.stereotype.Repository;
 
 /**
  * 类UserDao.java的实现描述：TODO 类实现描述
  * 
  * @author qibaichao 2014年7月22日 下午4:28:01
  */
+@Repository
 public interface UserDao {
 
     public UserPo selectUserById(int userId);
