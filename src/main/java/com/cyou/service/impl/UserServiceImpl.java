@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ import com.cyou.vo.UserVo;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserLogic userLogic;
@@ -50,7 +51,6 @@ public class UserServiceImpl implements UserService {
         } catch (LogicException e) {
             resultVoBean.failure(e.getReturnCodeEnum(), e.getMessage());
             logger.error(e.getMessage(), e);
-
         } catch (Exception e) {
             resultVoBean.failure(ReturnCodeEnum.SYSTEM_ERROR, e.getMessage());
             logger.error(e.getMessage(), e);
@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResultBean addUser(UserVo userVo) {
+    public ResultBean addUser(UserVo userVo) throws Exception{
         ResultBean resultBean = new ResultBean();
-        try {
+//        try {
             if (userVo == null) {
                 logger.error("add user param error:");
                 resultBean.failure(ReturnCodeEnum.PARAM_ERROR.getDesc());
@@ -71,21 +71,30 @@ public class UserServiceImpl implements UserService {
             UserPo userPo = new UserPo();
             BeanUtils.copyProperties(userVo, userPo);
             this.userLogic.addUser(userPo);
-        } catch (LogicException e) {
-            resultBean.failure(e.getReturnCodeEnum(), e.getMessage());
-            logger.error(
-                    String.format("add User logic exception userVo:%s",
-                            JSON.toJSONString(userVo)), e);
-
-        } catch (Exception e) {
-            resultBean.failure(ReturnCodeEnum.SYSTEM_ERROR, e.getMessage());
-            logger.error(
-                    String.format("add User system error userVo:%s",
-                            JSON.toJSONString(userVo)), e);
-
-        }
+            //事务测试
+            addUserTest(userVo);
+//        } catch (LogicException e) {
+//            resultBean.failure(e.getReturnCodeEnum(), e.getMessage());
+//            logger.error(
+//                    String.format("add User logic exception userVo:%s",
+//                            JSON.toJSONString(userVo)), e);
+//        }
+//        } catch (Exception e) {
+//            resultBean.failure(ReturnCodeEnum.SYSTEM_ERROR, e.getMessage());
+//            logger.error(
+//                    String.format("add User system error userVo:%s",
+//                            JSON.toJSONString(userVo)), e);
+//        }
         return resultBean;
+    }
 
+    @Transactional
+    public void addUserTest(UserVo userVo) throws Exception {
+
+        UserPo userPo = new UserPo();
+        BeanUtils.copyProperties(userVo, userPo);
+        this.userLogic.addUser(userPo);
+        throw new RuntimeException();
     }
 
     @Override

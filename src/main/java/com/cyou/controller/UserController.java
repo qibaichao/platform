@@ -3,6 +3,7 @@ package com.cyou.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.cyou.common.exception.LogicException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +60,11 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResultBean userAdd(UserVo u) {
         ResultBean resultBean = new ResultBean();
-        resultBean = userService.addUser(u);
+        try {
+            resultBean = userService.addUser(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return resultBean;
     }
 

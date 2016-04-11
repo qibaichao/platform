@@ -14,7 +14,7 @@ public interface UserService {
 
     public ResultVoBean<UserVo> getUserById(int userId);
 
-    public ResultBean addUser(UserVo userVo);
+    public ResultBean addUser(UserVo userVo) throws Exception;
 
     public Pager getUserPager(Pager pager);
 

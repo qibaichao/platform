@@ -93,7 +93,7 @@ public class UserServiceTest extends BaseTest {
      * service事物控制测试
      */
     @Test
-    public void transactionTest() {
+    public void transactionTest() throws Exception{
         UserVo u = new UserVo();
         u.setUserName("ceshi" + new Random().nextInt(1000));
         userService.addUser(u);
