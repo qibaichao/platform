@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.cyou.common.core.BaseServiceImpl;
@@ -23,6 +22,7 @@ import com.cyou.logic.UserLogic;
 import com.cyou.po.UserPo;
 import com.cyou.service.UserService;
 import com.cyou.vo.UserVo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 类UserServiceImpl.java的实现描述：TODO 类实现描述

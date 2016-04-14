@@ -4,16 +4,16 @@
     <property name="LOG_HOME" value="/opt/app/logs/platform"/>
     <!-- 控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- 日志输出编码 -->
-        <!--<Encoding>UTF-8</Encoding>-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
     </appender>
 
+
     <!-- 按照每天生成日志文件 -->
     <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <Encoding>UTF-8</Encoding>
+        <!--<Encoding>UTF-8</Encoding>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/platform-info.log.%d{yyyy-MM-dd}</FileNamePattern>
@@ -21,11 +21,11 @@
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
     </appender>
 
     <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <Encoding>UTF-8</Encoding>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/platform-error.log.%d{yyyy-MM-dd}</FileNamePattern>
@@ -33,6 +33,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
 
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
@@ -43,7 +44,6 @@
     </appender>
 
     <appender name="druidAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--<Encoding>UTF-8</Encoding>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/druid.log.%d{yyyy-MM-dd}</FileNamePattern>
@@ -51,6 +51,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
     </appender>
 
@@ -61,7 +62,7 @@
     </logger>
 
     <logger name="com.alibaba.druid" level="info" additivity="false">
-        <appender-ref ref="stdout" />
+        <appender-ref ref="stdout"/>
         <appender-ref ref="druidAppender"/>
     </logger>
 
