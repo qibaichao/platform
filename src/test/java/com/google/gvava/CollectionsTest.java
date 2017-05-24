@@ -22,5 +22,7 @@ public class CollectionsTest {
 
         ImmutableMap<String,String> map2 = ImmutableMap.of("key1", "value1", "key2", "value2");
 
+
+
     }
 }
