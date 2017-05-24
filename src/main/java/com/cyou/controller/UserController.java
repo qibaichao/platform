@@ -48,7 +48,7 @@ public class UserController extends BaseController {
         return "testUser/userAdd";
     }
 
-    /**
+    /**Cacheable
      * @Author qibaichao
      * @MethodName saveUser
      * @param u

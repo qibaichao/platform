@@ -15,6 +15,9 @@
 	<sql id="columnList">
 		user_id,user_name,email,phone,address,age
 	</sql>
+
+	<!--<cache eviction="LRU" type="com.renrendai.ordercenter.util.utils.cache.MybatisRedisCache"/>-->
+
 	<select id="selectUserById" resultMap="resultMap">
 		select
 		<include refid="columnList" />
