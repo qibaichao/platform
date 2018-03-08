@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+>
+
+    <!-- 引入属性文件 -->
+    <bean name="mqProducer" class="org.apache.rocketmq.client.producer.DefaultMQProducer" init-method="start" destroy-method="shutdown">
+        <constructor-arg value="producer" index="0"/>
+        <property name="namesrvAddr" value="172.16.3.122:9876"/>
+        <property name="retryAnotherBrokerWhenNotStoreOK" value="true"/>
+    </bean>
+
+ <!-- consumer -->
+    <bean name="mqConsumer" class="org.apache.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start" destroy-method="shutdown">
+        <property name="consumerGroup" value="cousumer"/>
+        <property name="namesrvAddr" value="172.16.3.122:9876"/>
+        <property name="subscription">
+            <map>
+                <entry key="TopicTest" value="*" />
+            </map>
+        </property>
+        <property name="messageListener" ref="RMQNormalListner"/>
+    </bean>
+
+    <bean name="mqConsumer2" class="org.apache.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start" destroy-method="shutdown">
+        <property name="consumerGroup" value="cousumer"/>
+        <property name="namesrvAddr" value="172.16.3.122:9876"/>
+        <property name="subscription">
+            <map>
+                <entry key="TopicTest" value="*" />
+            </map>
+        </property>
+        <property name="messageListener" ref="RMQNormalListner2"/>
+    </bean>
+
+    <bean name="RMQNormalListner" class="com.cyou.common.RMQNormalListner" />
+    <bean name="RMQNormalListner2" class="com.cyou.common.RMQNormalListner2" />
+
+
+</beans>

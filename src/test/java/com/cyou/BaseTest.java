@@ -15,6 +15,8 @@ public class BaseTest extends Assert {
         System.out.println("-----------开始测试用例----------");
     }
 
+
+
     @After
     public void baseAfter() {
         System.out.println("-----------结束测试用例----------");

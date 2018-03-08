@@ -14,13 +14,19 @@ import java.util.Map;
 public class CollectionsTest {
 
     public static void main(String args[]){
-        Map<String, Map<Long, List<String>>> map = new HashMap<String, Map<Long,List<String>>>();
+//        Map<String, Map<Long, List<String>>> map = new HashMap<String, Map<Long,List<String>>>();
+//
+//        Map<String, Map<Long, List<String>>> map1 = Maps.newHashMap();
+//
+//        ImmutableList<String> of = ImmutableList.of("a", "b", "c", "d");
+//
+//        ImmutableMap<String,String> map2 = ImmutableMap.of("key1", "value1", "key2", "value2");
 
-        Map<String, Map<Long, List<String>>> map1 = Maps.newHashMap();
+//        Integer a=55;
+//        Integer b=55;
+//        System.out.println(a==b);
 
-        ImmutableList<String> of = ImmutableList.of("a", "b", "c", "d");
-
-        ImmutableMap<String,String> map2 = ImmutableMap.of("key1", "value1", "key2", "value2");
+        System.out.println( 4 % 2);
 
     }
 }
