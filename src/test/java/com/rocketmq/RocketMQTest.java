@@ -28,6 +28,7 @@ public class RocketMQTest extends BaseTest {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            
         }
     }
 
